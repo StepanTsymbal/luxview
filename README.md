@@ -9,7 +9,7 @@ db.username=root
 db.password=root
 ```
 3. In case you do not have created DB, you can fulfil init_script.sql:
-
+```sh
 CREATE DATABASE IF NOT EXISTS LUX;
 
 create table if not exists FILE_INFO (
@@ -29,6 +29,7 @@ create table if not exists LINE_INFO (
    PRIMARY KEY (line_id),
    CONSTRAINT file_unive FOREIGN KEY (file_id) REFERENCES FILE_INFO (file_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+```
 
 4. DB app can scan both single file and directory (along with subdirectories).
 5. DB app works concurrently.
