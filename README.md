@@ -1,7 +1,7 @@
 # lux
 
-* **DB** - the first task, **Web** - the second one.
-* Both, **Web** and **DB** apps are using the same DB settings:
+* **DB** - the first task, **WEB** - the second one.
+* Both, **WEB** and **DB** apps are using the same DB settings:
 ```sh
 db.driver=com.mysql.jdbc.Driver
 db.url=jdbc:mysql://localhost:3306/lux
