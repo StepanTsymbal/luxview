@@ -8,7 +8,7 @@ db.url=jdbc:mysql://localhost:3306/lux
 db.username=root
 db.password=root
 ```
-3. In case you do not have created DB, you can fulfil init_script.sql:
+3 . In case you do not have created DB, you can fulfil init_script.sql:
 ```sh
 CREATE DATABASE IF NOT EXISTS LUX;
 
