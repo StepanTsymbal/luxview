@@ -2,12 +2,12 @@
 
 1. DB - the first task, DB - the second one.
 2. Both, WEB and DB apps are using the same DB settings:
-
+```sh
 db.driver=com.mysql.jdbc.Driver
 db.url=jdbc:mysql://localhost:3306/lux
 db.username=root
 db.password=root
-
+```
 3. In case you do not have created DB, you can fulfil init_script.sql:
 
 CREATE DATABASE IF NOT EXISTS LUX;
