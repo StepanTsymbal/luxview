@@ -1,14 +1,14 @@
 # lux
 
 * DB - the first task, DB - the second one.
-2. Both, WEB and DB apps are using the same DB settings:
+* Both, WEB and DB apps are using the same DB settings:
 ```sh
 db.driver=com.mysql.jdbc.Driver
 db.url=jdbc:mysql://localhost:3306/lux
 db.username=root
 db.password=root
 ```
-3 .In case you do not have created DB, you can fulfil init_script.sql:
+* In case you do not have created DB, you can fulfil init_script.sql:
 ```sh
 CREATE DATABASE IF NOT EXISTS LUX;
 
@@ -31,6 +31,6 @@ create table if not exists LINE_INFO (
 );
 ```
 
-4. DB app can scan both single file and directory (along with subdirectories).
-5. DB app works concurrently.
-6. Web app can filter files by name.
+* DB app can scan both single file and directory (along with subdirectories).
+* DB app works concurrently.
+* Web app can filter files by name.
