@@ -34,3 +34,4 @@ create table if not exists LINE_INFO (
 * **DB** app can scan both single file and directory (along with subdirectories).
 * **DB** app works concurrently.
 * **WEB** app can filter files by name.
+* In order to view frontend of **WEB** app, please launch the server with the app and open [http://localhost:8080/luxviewer/]
