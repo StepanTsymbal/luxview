@@ -13,7 +13,7 @@ import com.spr.service.LineInfoService;
 public class LineInfoServiceImpl implements LineInfoService {
 	
 	@Autowired
-	LineInfoRepository lineInfoRepository;
+	private LineInfoRepository lineInfoRepository;
 
 	public List<LineInfo> findAll() {
 

@@ -13,7 +13,7 @@ import com.spr.service.FileInfoService;
 public class FileInfoServiceImpl implements FileInfoService {
 	
 	@Autowired
-	FileInfoRepository fileInfoRepository;
+	private FileInfoRepository fileInfoRepository;
 
 	public List<FileInfo> getAll() {
 		

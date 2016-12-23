@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spr.model.FileInfo;
 import com.spr.service.FileInfoService;
-import com.spr.service.LineInfoService;
+//import com.spr.service.LineInfoService;
 
 @Controller
 public class ViewerController {
 	
 	@Autowired
-	FileInfoService fileInfoService;
+	private FileInfoService fileInfoService;
 	
-	@Autowired
-	LineInfoService lineInfoService;
+//	@Autowired
+//	private LineInfoService lineInfoService;
 	
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<List<FileInfo>> getAllFiles() {

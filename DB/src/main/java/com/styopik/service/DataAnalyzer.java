@@ -24,10 +24,7 @@ import com.styopik.util.DBConnection;
 
 public class DataAnalyzer implements Callable<Integer> {
 	
-	Connection conn = null;
-//	PreparedStatement pst = null;
-//	ResultSet rs = null;
-//	Statement stmt = null;
+	private Connection conn;
 	
 	private File directory;
 	private int counter;
