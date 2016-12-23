@@ -7,10 +7,6 @@ import java.util.concurrent.FutureTask;
 
 import com.styopik.service.DataAnalyzer;
 
-/**
- * Hello world!
- *
- */
 public class Main {
 	
     public static void main( String[] args ) {

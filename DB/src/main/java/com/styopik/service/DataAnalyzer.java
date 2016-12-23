@@ -25,9 +25,9 @@ import com.styopik.util.DBConnection;
 public class DataAnalyzer implements Callable<Integer> {
 	
 	Connection conn = null;
-	PreparedStatement pst = null;
-	ResultSet rs = null;
-	Statement stmt = null;
+//	PreparedStatement pst = null;
+//	ResultSet rs = null;
+//	Statement stmt = null;
 	
 	private File directory;
 	private int counter;
@@ -37,52 +37,22 @@ public class DataAnalyzer implements Callable<Integer> {
 	}
 
 	/*
-	 * Adds Data to tables
+	 * Adds Data to both tables
 	 */
 	public void populateDb (String fileName) {
-		
-        final String queryLineInsert = "insert into line_info (file_id, line, longest_word, shortest_word, average_word_length) values(?, ?, ?, ?, ?)";
-        final String queryFileInsert = "insert into file_info (name, lines_number) values(?, ?)";
-		
-		int lineCount = 0;
-		int maxFileId = 0;
+
+		int maxFileId;
 		
 		checkConnection();
-		
-		try (BufferedReader br = new BufferedReader(new FileReader(new File(fileName)))) {
-            while ((br.readLine()) != null) {
-            	lineCount++;
-            }
-		} catch (IOException e) {
-            e.printStackTrace();
-        }
 
 		try {
 			
-			List<LineInfo> lineInfoList = getAllLinesFromFile(fileName);
-            
         	conn.setAutoCommit(false);
-
-            pst = conn.prepareStatement(queryFileInsert);
-            pst.setString(1, new File(fileName).getAbsolutePath());
-            pst.setInt(2, lineCount);
-            
-			pst.executeUpdate();
-			
-			maxFileId = getMaxFileId();
-			
-			for (LineInfo lineInfo : lineInfoList) {
-				
-				pst = conn.prepareStatement(queryLineInsert);
-				
-                pst.setInt(1, maxFileId);
-                pst.setString(2, lineInfo.getLine());
-                pst.setString(3, lineInfo.getLongestWord());
-                pst.setString(4, lineInfo.getShortestWord());
-                pst.setDouble(5, lineInfo.getAverageLength());
-                
-				pst.executeUpdate();
-			}
+        				
+			List<LineInfo> lineInfoList = getAllLinesFromFile(fileName);
+			populateFileTable(fileName, lineInfoList.size());
+        	maxFileId = getMaxFileId();
+			populateLineTable(lineInfoList, maxFileId);
 			
 			conn.commit();
             
@@ -92,9 +62,7 @@ public class DataAnalyzer implements Callable<Integer> {
         	try {
         		if (conn != null) {
     				conn.close();
-        		} else if (pst != null) {
-    				pst.close();
-        		}
+        		} 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -105,11 +73,13 @@ public class DataAnalyzer implements Callable<Integer> {
 	 * Fetches the maximum id from FILE_INFO table
 	 */
 	private int getMaxFileId() {
+		
 		int maxFileId = 0;
 		final String queryMaxFileId = "select max(file_id) as max_file_id from file_info";
-        try {
-        	stmt = conn.createStatement();
-        	rs = stmt.executeQuery(queryMaxFileId);
+		
+        try (Statement stmt = conn.createStatement();
+        		ResultSet rs = stmt.executeQuery(queryMaxFileId);) {
+
 			if (rs.next()) {
 				maxFileId = rs.getInt("max_file_id");
 			}
@@ -225,4 +195,46 @@ public class DataAnalyzer implements Callable<Integer> {
 		return counter;
 	}
 		
+	/*
+	 * Populates FILE_INFO table
+	 */
+	public void populateFileTable(String fileName, int lineCount) {
+		
+        final String queryFileInsert = "insert into file_info (name, lines_number) values(?, ?)";
+		
+        try (PreparedStatement pst = conn.prepareStatement(queryFileInsert);) {
+        	
+            pst.setString(1, new File(fileName).getAbsolutePath());
+            pst.setInt(2, lineCount);
+    		pst.executeUpdate();
+    		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Populates LINE_INFO table
+	 */
+	public void populateLineTable(List<LineInfo> listLineInfo, int maxFileId) {
+		
+        final String queryLineInsert = "insert into line_info (file_id, line, longest_word, shortest_word, average_word_length) values(?, ?, ?, ?, ?)";
+	
+		try (PreparedStatement pst = conn.prepareStatement(queryLineInsert);) {
+			
+			for (LineInfo lineInfo : listLineInfo) {
+	            pst.setInt(1, maxFileId);
+	            pst.setString(2, lineInfo.getLine());
+	            pst.setString(3, lineInfo.getLongestWord());
+	            pst.setString(4, lineInfo.getShortestWord());
+	            pst.setDouble(5, lineInfo.getAverageLength());
+	            
+				pst.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
