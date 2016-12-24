@@ -26,6 +26,6 @@ public class Main {
         } catch (InterruptedException | ExecutionException e) {
         	e.printStackTrace();
         }
-        System.out.println("Data scanning has finished");
+        System.out.println("Data scanning has been finished");
     }
 }
