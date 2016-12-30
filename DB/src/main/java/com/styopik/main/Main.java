@@ -5,7 +5,8 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import com.styopik.service.DataAnalyzer;
+import com.styopik.analyzer.DataAnalyzer;
+import com.styopik.service.impl.DataFetcherImpl;
 
 public class Main {
 	
@@ -15,7 +16,7 @@ public class Main {
         
         System.out.println("Enter file name or directory for scanning");
         
-        DataAnalyzer countFiles = new DataAnalyzer(new File(in.nextLine()));
+        DataAnalyzer countFiles = new DataAnalyzer(new File(in.nextLine()), new DataFetcherImpl());
         FutureTask<Integer> tsk = new FutureTask<Integer>(countFiles);
         Thread thread = new Thread(tsk);
 

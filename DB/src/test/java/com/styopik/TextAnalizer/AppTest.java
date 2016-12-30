@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.styopik.model.LineInfo;
-import com.styopik.service.DataFetcher;
+import com.styopik.service.impl.DataFetcherImpl;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -14,7 +14,7 @@ public class AppTest extends TestCase {
 
 	public static final String PATH_TO_FILE = "src/test/resources/test.txt";
 	
-	DataFetcher dataFetcher = new DataFetcher();
+	DataFetcherImpl dataFetcher = new DataFetcherImpl();
 	
     /**
      * Create the test case
