@@ -35,8 +35,3 @@ create table if not exists LINE_INFO (
 * **DB** app works concurrently.
 * **WEB** app can filter files by name.
 * In order to view frontend of **WEB** app, please launch the server with the app and open `http://localhost:8080/luxviewer/`
-=======
-Example of Spring Data JPA application (Hibernate used as implementation of JPA).
-
-You can read tutorial for this app by following link: http://fruzenshtein.com/spring-mvc-hibernate-maven-crud/
->>>>>>> cf9abf76e7ed21d77426e058f33398eda74e38f9
