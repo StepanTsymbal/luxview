@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # lux
 
 * **DB** - the first task, **WEB** - the second one.
