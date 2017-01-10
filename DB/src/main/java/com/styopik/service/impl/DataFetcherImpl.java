@@ -53,15 +53,16 @@ public class DataFetcherImpl implements DataFetcher {
             
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-        	try {
-        		if (conn != null) {
-    				conn.close();
-        		} 
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-        }
+        } 
+//		finally {
+//        	try {
+//        		if (conn != null) {
+//    				conn.close();
+//        		} 
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//        }
 	}
 	
 	/*
@@ -107,12 +108,10 @@ public class DataFetcherImpl implements DataFetcher {
 	 * Fetches the maximum id from FILE_INFO table
 	 */
 	private int getMaxFileId() {
-		
 		int maxFileId = 0;
 		final String queryMaxFileId = "select max(file_id) as max_file_id from file_info";
 		
-        try (Statement stmt = conn.createStatement();
-        		ResultSet rs = stmt.executeQuery(queryMaxFileId);) {
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(queryMaxFileId);) {
 
 			if (rs.next()) {
 				maxFileId = rs.getInt("max_file_id");
@@ -141,7 +140,6 @@ public class DataFetcherImpl implements DataFetcher {
 	 * Filters Llist<String> by length
 	 */
 	public List<String> getFilteredList (String line) {
-		
 		List<String> sortedList = new ArrayList<String>(Arrays.asList(line.split("\\s+")));
 		
 		Collections.sort(sortedList, new Comparator<String>() {
@@ -158,17 +156,27 @@ public class DataFetcherImpl implements DataFetcher {
 	 * Fetches all Data from file
 	 */
 	public List<LineInfo> getAllLinesFromFile (String fileName) {
-		
 		String line;
 		List<String> sortedLineList = null;
 		List<LineInfo> lineInfoList = new ArrayList<>();
+    	String longestWord;
+    	String shortestWord;
 		
-		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {            
+		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+			
             while ((line = br.readLine()) != null) {
             	
             	sortedLineList = getFilteredList(line);
             	
-            	lineInfoList.add(new LineInfo(line, sortedLineList.get(sortedLineList.size() - 1), sortedLineList.get(0), getAverageWordLength(sortedLineList)));
+            	if (sortedLineList.size() != 0) {
+            		longestWord = sortedLineList.get(sortedLineList.size() - 1);
+            		shortestWord = sortedLineList.get(0);
+            	} else {
+            		longestWord = "";
+            		shortestWord = "";
+            	}
+            	
+            	lineInfoList.add(new LineInfo(line, longestWord, shortestWord, getAverageWordLength(sortedLineList)));
             }
             
         } catch (IOException e) {
@@ -182,7 +190,6 @@ public class DataFetcherImpl implements DataFetcher {
 	 * Connects to DB
 	 */
 	private void checkConnection() {
-		
 		conn = DBConnection.getConnection();
 		
 		if (conn == null) {

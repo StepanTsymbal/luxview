@@ -37,20 +37,23 @@ public class DataAnalyzer implements Callable<Integer> {
 			File[] files = directory.listFiles();
 			results = new ArrayList<Future<Integer>>();
 			
-			for (File file : files) {
-			    if (file.isDirectory()) {
-			    	DataAnalyzer counter = new DataAnalyzer(file, dataFetcher);
-			    	FutureTask<Integer> task = new FutureTask<Integer>(counter);
+			if (files != null) {
+				for (File file : files) {
+				    if (file.isDirectory()) {
+				    	DataAnalyzer counter = new DataAnalyzer(file, dataFetcher);
+				    	FutureTask<Integer> task = new FutureTask<Integer>(counter);
 
-			    	results.add(task);
+				    	results.add(task);
 
-			    	Thread t = new Thread(task);
-			    	t.start();
-			    } else if (file.isFile() && file.getName().endsWith(".txt")) {
-			    	dataFetcher.populateDb(file.getAbsolutePath());
-			    	counter++;
-			    }
+				    	Thread t = new Thread(task);
+				    	t.start();
+				    } else if (file.isFile() && file.getName().endsWith(".txt")) {
+				    	dataFetcher.populateDb(file.getAbsolutePath());
+				    	counter++;
+				    }
+				}
 			}
+
 		} else {
 			if (directory.isFile() && directory.getName().endsWith(".txt")) {
 				dataFetcher.populateDb(directory.getAbsolutePath());
