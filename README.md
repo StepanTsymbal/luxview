@@ -1,6 +1,5 @@
 # lux
 
-* **DB** - the first task, **WEB** - the second one.
 * Both, **WEB** and **DB** apps are using the same DB settings:
 ```sh
 db.driver=com.mysql.jdbc.Driver
